@@ -88,13 +88,13 @@ function App() {
 
         return {
           id: agendamento.id,
-          title: `${agendamento.primeira_consulta ? '📋 ' : ''}${agendamento.paciente} - ${agendamento.profissional}`,
+          title: `${agendamento.primeira_consulta ? '📋 ' : ''}${agendamento.nome_paciente} - ${agendamento.profissional}`,
           start: inicio.toISOString(),
           end: fim.toISOString(),
           backgroundColor,
           borderColor,
           extendedProps: {
-            paciente: agendamento.paciente,
+            paciente: agendamento.nome_paciente,
             profissional: agendamento.profissional,
             tipo_consulta: agendamento.tipo_consulta,
             status: agendamento.status,
@@ -164,7 +164,7 @@ ${extendedProps.observacoes ? `📝 Observações: ${extendedProps.observacoes}`
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Calendar size={32} color="#1f93ff" />
           <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#2d3748' }}>
-            SoftClin Agenda
+            Endoclin Agenda
           </h1>
         </div>
 
@@ -266,7 +266,7 @@ ${extendedProps.observacoes ? `📝 Observações: ${extendedProps.observacoes}`
         color: '#718096',
         fontSize: '14px'
       }}>
-        <p>SoftClin Agenda © 2025 - Sistema de Agendamento Médico</p>
+        <p>EndoClin - Agenda © 2025 - Sistema de Agendamento Médico</p>
       </footer>
     </div>
   )

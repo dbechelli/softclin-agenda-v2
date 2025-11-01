@@ -1,6 +1,6 @@
-# 📅 SoftClin Agenda v2.0
+# 📅 Endoclin Agenda v2.0
 
-Sistema inteligente de agendamento médico com gestão completa de profissionais, integrado ao Chatwoot.
+Sistema inteligente de agendamento médico com gestão completa de profissionais, integrado ao IA.
 
 ## ✨ Novidades da v2.0
 
