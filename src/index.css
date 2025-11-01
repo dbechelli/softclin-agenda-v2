@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos do FullCalendar */
+.fc {
+  font-family: inherit;
+}
+
+.fc-event {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.fc-event:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  transition: all 0.2s;
+}
+
+.fc-toolbar-title {
+  font-size: 1.5em !important;
+  font-weight: 600;
+}
+
+.fc-button {
+  background-color: #1f93ff !important;
+  border-color: #1f93ff !important;
+}
+
+.fc-button:hover {
+  background-color: #1a7fd9 !important;
+}
+
+.fc-button-active {
+  background-color: #1565c0 !important;
+}
+
+.fc-col-header-cell {
+  background-color: #f5f7fa;
+  font-weight: 600;
+}
+
+.fc-timegrid-slot {
+  height: 3em;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
