@@ -32,16 +32,6 @@ Object.keys(envConfig).forEach(key => {
 // Fallback: também tentar o método padrão
 require('dotenv').config({ path: envPath })
 
-// Debug: verificar variáveis de ambiente
-console.log('\n📋 Variáveis de Ambiente Carregadas:')
-console.log('PORT:', process.env.PORT)
-console.log('DB_USER:', process.env.DB_USER)
-console.log('DB_HOST:', process.env.DB_HOST)
-console.log('DB_PORT:', process.env.DB_PORT)
-console.log('DB_NAME:', process.env.DB_NAME)
-console.log('API_KEY:', process.env.API_KEY ? '✓ Definida' : '✗ NÃO DEFINIDA')
-console.log('')
-
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -338,8 +328,6 @@ app.get('/debug/env', (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Backend rodando em http://localhost:${PORT}`)
-  console.log(`API disponível em http://localhost:${PORT}/api`)
 })
 
 // Graceful shutdown
