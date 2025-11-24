@@ -17,8 +17,6 @@ const fs = require('fs')
 
 // Debug: verificar se o arquivo .env existe
 const envPath = path.join(__dirname, '.env')
-console.log('🔍 Procurando .env em:', envPath)
-console.log('✓ Arquivo existe?', fs.existsSync(envPath))
 
 // Carregar variáveis do .env manualmente se necessário
 const dotenv = require('dotenv')
@@ -314,17 +312,6 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', message: 'Backend está rodando' })
 })
 
-// DEBUG: Endpoint para verificar variáveis (remova em produção!)
-app.get('/debug/env', (req, res) => {
-  res.json({
-    PORT: process.env.PORT,
-    DB_USER: process.env.DB_USER,
-    DB_HOST: process.env.DB_HOST,
-    DB_PORT: process.env.DB_PORT,
-    DB_NAME: process.env.DB_NAME,
-    API_KEY: process.env.API_KEY ? '✓ Definida' : '✗ NÃO DEFINIDA'
-  })
-})
 
 // Iniciar servidor
 app.listen(PORT, () => {
