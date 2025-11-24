@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
+import { db } from './lib/db'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -21,10 +21,9 @@ function App() {
 
   const carregarProfissionais = async () => {
     try {
-      const { data, error } = await supabase
-        .from('profissionais')
-        .select('*')
-        .eq('ativo', true)
+      const { data, error } = await db.select('profissionais', {
+        filters: { ativo: true }
+      })
 
       if (error) throw error
       
@@ -47,10 +46,10 @@ function App() {
 
   const carregarAgendamentos = async () => {
     try {
-      const { data, error } = await supabase
-        .from('agendamentos')
-        .select('*')
-        .order('data_consulta', { ascending: true })
+      const { data, error } = await db.select('agendamentos', {
+        orderBy: 'data_consulta',
+        ascending: true
+      })
 
       if (error) throw error
 

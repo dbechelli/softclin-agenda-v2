@@ -1,0 +1,395 @@
+{
+  "info": {
+    "_postman_id": "softclin-agenda-api",
+    "name": "SoftClin Agenda - PostgreSQL API",
+    "description": "Coleção de testes para a API de agendamentos com PostgreSQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12345"
+  },
+  "item": [
+    {
+      "name": "Profissionais",
+      "item": [
+        {
+          "name": "Listar Todos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/profissionais",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "profissionais"
+              ]
+            },
+            "description": "Retorna todos os profissionais cadastrados"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Ativos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/profissionais?filter[ativo]=true",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "profissionais"
+              ],
+              "query": [
+                {
+                  "key": "filter[ativo]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Retorna apenas profissionais ativos"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Ordenado por Nome",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/profissionais?orderBy=nome_exibicao&ascending=true",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "profissionais"
+              ],
+              "query": [
+                {
+                  "key": "orderBy",
+                  "value": "nome_exibicao"
+                },
+                {
+                  "key": "ascending",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Retorna profissionais ordenados por nome (A-Z)"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Novo Profissional",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome_completo\": \"Dr. João da Silva Santos\",\n  \"nome_exibicao\": \"Dr. João Silva\",\n  \"especialidade\": \"Gastroenterologia\",\n  \"crm_registro\": \"CRM/SP 123456\",\n  \"email\": \"joao.silva@clinica.com\",\n  \"telefone\": \"(11) 99999-9999\",\n  \"ativo\": true,\n  \"config_atendimento\": {\n    \"horarios\": {\n      \"segunda\": [{\"inicio\": \"08:00\", \"fim\": \"18:00\"}],\n      \"terca\": [{\"inicio\": \"08:00\", \"fim\": \"18:00\"}],\n      \"quarta\": [{\"inicio\": \"08:00\", \"fim\": \"18:00\"}],\n      \"quinta\": [{\"inicio\": \"08:00\", \"fim\": \"18:00\"}],\n      \"sexta\": [{\"inicio\": \"08:00\", \"fim\": \"18:00\"}],\n      \"sabado\": [],\n      \"domingo\": []\n    },\n    \"duracao_consulta\": 30,\n    \"primeira_consulta_duracao\": 60,\n    \"retorno_duracao\": 30,\n    \"intervalo_entre_consultas\": 10,\n    \"max_consultas_dia\": 12,\n    \"aceita_encaixe\": true,\n    \"almoco\": {\"inicio\": \"12:00\", \"fim\": \"13:00\"},\n    \"especialidades\": [\"Gastroenterologia\", \"Endoscopia\"],\n    \"procedimentos_que_realiza\": [\"Endoscopia Diagnóstica\", \"Colonoscopia\"],\n    \"procedimentos_que_nao_realiza\": [\"Cirurgias\"],\n    \"restricoes\": {\n      \"idade_minima\": null,\n      \"idade_maxima\": null,\n      \"nao_atende\": [],\n      \"condicoes_especiais\": []\n    },\n    \"formas_atendimento\": {\n      \"aceita_particular\": true,\n      \"valor_consulta_particular\": 250.00,\n      \"valor_primeira_consulta\": 350.00,\n      \"aceita_convenios\": true,\n      \"convenios_atendidos\": [\"Amil\", \"Unimed\"],\n      \"aceita_online\": false\n    },\n    \"perfil_ia\": {\n      \"bio\": \"Médico especialista em gastroenterologia com 15 anos de experiência\",\n      \"formacao\": [\"Medicina - USP\", \"Especialização em Gastroenterologia - UNIFESP\"],\n      \"areas_expertise\": [\"Gastroenterologia Clínica\", \"Endoscopia Digestiva\"],\n      \"idiomas\": [\"Português\", \"Inglês\"],\n      \"diferenciais\": [\"Atendimento humanizado\", \"Equipamentos modernos\"],\n      \"indicado_para\": [\"Gastrite\", \"Refluxo\", \"Úlcera\"]\n    },\n    \"comunicacao\": {\n      \"aceita_contato_whatsapp\": true,\n      \"tempo_resposta_medio\": \"2 horas\",\n      \"disponivel_urgencias\": true,\n      \"plantao_fim_semana\": false\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/profissionais",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "profissionais"
+              ]
+            },
+            "description": "Cria um novo profissional com todas as configurações"
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Profissional",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"novo.email@clinica.com\",\n  \"telefone\": \"(11) 98888-8888\",\n  \"ativo\": true\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/profissionais?filter[id]=1",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "profissionais"
+              ],
+              "query": [
+                {
+                  "key": "filter[id]",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Atualiza dados de um profissional específico (substitua o ID)"
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Profissional",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/profissionais?filter[id]=1",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "profissionais"
+              ],
+              "query": [
+                {
+                  "key": "filter[id]",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Deleta um profissional (substitua o ID)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Agendamentos",
+      "item": [
+        {
+          "name": "Listar Todos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/agendamentos",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "agendamentos"
+              ]
+            },
+            "description": "Retorna todos os agendamentos"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Ordenado por Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/agendamentos?orderBy=data_consulta&ascending=true",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "agendamentos"
+              ],
+              "query": [
+                {
+                  "key": "orderBy",
+                  "value": "data_consulta"
+                },
+                {
+                  "key": "ascending",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Retorna agendamentos ordenados por data (mais antigos primeiro)"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Novo Agendamento",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome_paciente\": \"Maria dos Santos\",\n  \"profissional\": \"Dr. João Silva\",\n  \"data_consulta\": \"2025-12-15\",\n  \"hora_consulta\": \"10:00\",\n  \"tipo_consulta\": \"Consulta\",\n  \"status\": \"pendente\",\n  \"observacoes\": \"Paciente com histórico de gastrite\",\n  \"primeira_consulta\": true\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/agendamentos",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "agendamentos"
+              ]
+            },
+            "description": "Cria um novo agendamento"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Múltiplos Agendamentos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sua_chave_api_aqui",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"nome_paciente\": \"João Pedro\",\n    \"profissional\": \"Dr. João Silva\",\n    \"data_consulta\": \"2025-12-16\",\n    \"hora_consulta\": \"14:00\",\n    \"tipo_consulta\": \"Consulta\",\n    \"status\": \"confirmado\",\n    \"observacoes\": \"Retorno\",\n    \"primeira_consulta\": false\n  },\n  {\n    \"nome_paciente\": \"Ana Costa\",\n    \"profissional\": \"Dr. João Silva\",\n    \"data_consulta\": \"2025-12-17\",\n    \"hora_consulta\": \"09:00\",\n    \"tipo_consulta\": \"Consulta\",\n    \"status\": \"pendente\",\n    \"observacoes\": \"\",\n    \"primeira_consulta\": true\n  }\n]"
+            },
+            "url": {
+              "raw": "{{API_URL}}/agendamentos",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "agendamentos"
+              ]
+            },
+            "description": "Cria múltiplos agendamentos de uma vez"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/health",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Verifica se o backend está rodando (sem autenticação)"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "API_URL",
+      "value": "http://localhost:3001/api",
+      "type": "string"
+    },
+    {
+      "key": "API_KEY",
+      "value": "sua_chave_api_aqui",
+      "type": "string"
+    }
+  ]
+}

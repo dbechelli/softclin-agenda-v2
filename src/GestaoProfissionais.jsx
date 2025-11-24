@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
+import { db } from './lib/db'
 import { 
   User, Clock, Stethoscope, XCircle, CreditCard, 
   Brain, MessageSquare, Save, Plus, Trash2, AlertCircle 
@@ -97,10 +97,9 @@ function GestaoProfissionais() {
 
   const carregarProfissionais = async () => {
     try {
-      const { data, error } = await supabase
-        .from('profissionais')
-        .select('*')
-        .order('nome_exibicao')
+      const { data, error } = await db.select('profissionais', {
+        orderBy: 'nome_exibicao'
+      })
 
       if (error) throw error
       setProfissionais(data || [])
@@ -135,17 +134,14 @@ function GestaoProfissionais() {
     setLoading(true)
     try {
       if (profissionalSelecionado === 'novo') {
-        const { error } = await supabase
-          .from('profissionais')
-          .insert([formData])
+        const { error } = await db.insert('profissionais', formData)
         
         if (error) throw error
         mostrarMensagem('sucesso', 'Profissional criado com sucesso!')
       } else {
-        const { error } = await supabase
-          .from('profissionais')
-          .update(formData)
-          .eq('id', profissionalSelecionado)
+        const { error } = await db.update('profissionais', formData, {
+          id: profissionalSelecionado
+        })
         
         if (error) throw error
         mostrarMensagem('sucesso', 'Profissional atualizado com sucesso!')
