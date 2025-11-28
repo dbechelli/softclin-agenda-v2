@@ -34,7 +34,7 @@ class DatabaseService {
       }
 
       const queryString = params.toString()
-      const url = `${API_URL}/${table}${queryString ? '?' + queryString : ''}`
+      const url = `${API_URL}/api/${table}${queryString ? '?' + queryString : ''}`
       
       const response = await fetch(url, {
         method: 'GET',
@@ -61,7 +61,7 @@ class DatabaseService {
    */
   async insert(table, records) {
     try {
-      const response = await fetch(`${API_URL}/${table}`, {
+      const response = await fetch(`${API_URL}/api/${table}`, {
         method: 'POST',
         headers: this.getHeaders(),
         body: JSON.stringify(Array.isArray(records) ? records : [records])
@@ -97,7 +97,7 @@ class DatabaseService {
       }
 
       const queryString = params.toString()
-      const url = `${API_URL}/${table}${queryString ? '?' + queryString : ''}`
+      const url = `${API_URL}/api/${table}${queryString ? '?' + queryString : ''}`
 
       const response = await fetch(url, {
         method: 'PATCH',
@@ -134,7 +134,7 @@ class DatabaseService {
       }
 
       const queryString = params.toString()
-      const url = `${API_URL}/${table}${queryString ? '?' + queryString : ''}`
+      const url = `${API_URL}/api/${table}${queryString ? '?' + queryString : ''}`
 
       const response = await fetch(url, {
         method: 'DELETE',

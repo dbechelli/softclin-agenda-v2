@@ -5,13 +5,10 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import ptBrLocale from '@fullcalendar/core/locales/pt-br'
-import { Calendar, Users, Settings } from 'lucide-react'
-import GestaoProfissionais from './GestaoProfissionais'
+import { Calendar } from 'lucide-react'
 
 function App() {
-  const [view, setView] = useState('calendar')
   const [events, setEvents] = useState([])
-  const [profissionais, setProfissionais] = useState([])
   const [profissionaisConfig, setProfissionaisConfig] = useState({})
 
   useEffect(() => {
@@ -26,8 +23,6 @@ function App() {
       })
 
       if (error) throw error
-      
-      setProfissionais(data || [])
       
       // Criar mapa de configurações por nome_exibicao
       const configMap = {}
@@ -65,24 +60,40 @@ function App() {
           ? config.primeira_consulta_duracao 
           : config.duracao_consulta
 
-        // Calcular horário de término
+        // Converter data_consulta para data correta
+        let dataConsulta = new Date(agendamento.data_consulta)
+        
+        // Se a data vier com T00:00:00Z, precisa ajustar para local
+        if (typeof agendamento.data_consulta === 'string') {
+          const [ano, mes, dia] = agendamento.data_consulta.substring(0, 10).split('-')
+          dataConsulta = new Date(parseInt(ano), parseInt(mes) - 1, parseInt(dia))
+        }
+        
+        // Combinar data com hora
         const [hora, minuto] = agendamento.hora_consulta.split(':')
-        const inicio = new Date(`${agendamento.data_consulta}T${agendamento.hora_consulta}`)
+        const inicio = new Date(dataConsulta)
+        inicio.setHours(parseInt(hora), parseInt(minuto), 0, 0)
+        
         const fim = new Date(inicio.getTime() + duracao * 60000)
 
-        // Definir cores baseado no status (cores do Chatwoot)
-        let backgroundColor = '#1f93ff' // Azul Chatwoot
+        // Definir cores baseado no status (agendado, confirmado, cancelado, realizado)
+        let backgroundColor = '#1f93ff' // Azul padrão
         let borderColor = '#1f93ff'
         
-        if (agendamento.status === 'confirmado') {
-          backgroundColor = '#44ce4b' // Verde Chatwoot
+        const status = agendamento.status?.toLowerCase() || 'agendado'
+        
+        if (status === 'confirmado') {
+          backgroundColor = '#44ce4b' // Verde
           borderColor = '#44ce4b'
-        } else if (agendamento.status === 'cancelado') {
+        } else if (status === 'cancelado') {
           backgroundColor = '#f44336' // Vermelho
           borderColor = '#f44336'
-        } else if (agendamento.status === 'pendente') {
-          backgroundColor = '#ffc532' // Amarelo Chatwoot
+        } else if (status === 'pendente') {
+          backgroundColor = '#ffc532' // Amarelo
           borderColor = '#ffc532'
+        } else if (status === 'realizado') {
+          backgroundColor = '#9e9e9e' // Cinza
+          borderColor = '#9e9e9e'
         }
 
         return {
@@ -157,7 +168,7 @@ ${extendedProps.observacoes ? `📝 Observações: ${extendedProps.observacoes}`
         padding: '20px 40px',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -166,96 +177,48 @@ ${extendedProps.observacoes ? `📝 Observações: ${extendedProps.observacoes}`
             Endoclin Agenda
           </h1>
         </div>
-
-        <nav style={{ display: 'flex', gap: '10px' }}>
-          <button
-            onClick={() => setView('calendar')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 20px',
-              background: view === 'calendar' ? '#1f93ff' : 'white',
-              color: view === 'calendar' ? 'white' : '#4a5568',
-              border: view === 'calendar' ? 'none' : '2px solid #e2e8f0',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-          >
-            <Calendar size={18} />
-            Calendário
-          </button>
-
-          <button
-            onClick={() => setView('profissionais')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 20px',
-              background: view === 'profissionais' ? '#1f93ff' : 'white',
-              color: view === 'profissionais' ? 'white' : '#4a5568',
-              border: view === 'profissionais' ? 'none' : '2px solid #e2e8f0',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-          >
-            <Users size={18} />
-            Profissionais
-          </button>
-        </nav>
       </header>
 
       {/* Conteúdo */}
       <main style={{ padding: '30px 40px' }}>
-        {view === 'calendar' ? (
-          <div style={{
-            background: 'white',
-            padding: '30px',
-            borderRadius: '12px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-          }}>
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="timeGridWeek"
-              locale={ptBrLocale}
-              headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-              }}
-              buttonText={{
-                today: 'Hoje',
-                month: 'Mês',
-                week: 'Semana',
-                day: 'Dia'
-              }}
-              events={events}
-              eventClick={handleEventClick}
-              slotMinTime="06:00:00"
-              slotMaxTime="20:00:00"
-              allDaySlot={false}
-              height="auto"
-              slotDuration="00:15:00"
-              slotLabelInterval="01:00"
-              expandRows={true}
-              stickyHeaderDates={true}
-              eventTimeFormat={{
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-              }}
-            />
-          </div>
-        ) : (
-          <GestaoProfissionais />
-        )}
+        <div style={{
+          background: 'white',
+          padding: '30px',
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+        }}>
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            locale={ptBrLocale}
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            }}
+            buttonText={{
+              today: 'Hoje',
+              month: 'Mês',
+              week: 'Semana',
+              day: 'Dia'
+            }}
+            events={events}
+            eventClick={handleEventClick}
+            slotMinTime="06:00:00"
+            slotMaxTime="20:00:00"
+            allDaySlot={false}
+            height="auto"
+            slotDuration="00:15:00"
+            slotLabelInterval="01:00"
+            expandRows={true}
+            stickyHeaderDates={true}
+            eventTimeFormat={{
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+            }}
+          />
+        </div>
       </main>
 
       {/* Footer */}
